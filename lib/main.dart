@@ -18,6 +18,7 @@ import 'package:ay_invoiving_app/screens/loading_screen.dart';
 import 'package:ay_invoiving_app/screens/quotation.dart';
 import 'package:ay_invoiving_app/screens/top_navigator.dart';
 import 'package:ay_invoiving_app/screens/update_sales.dart';
+import 'package:ay_invoiving_app/screens/working_on_it.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -147,6 +148,7 @@ class _MyAppState extends State<MyApp> {
           '/quotation': (context) => Quotation(),
           '/expense': (context) => Expense(),
           '/attendance': (context) => Attendance(),
+          '/working': (context) => WorkingOnIt(),
         },
         home: FutureBuilder(
             future: initialiseFirebase(),

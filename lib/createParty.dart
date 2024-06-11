@@ -52,7 +52,7 @@ class _NewPartyState extends State<NewParty> {
     }
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      appBar: AppBar(title: Text('${widget.edit ? "Update": "Edit"} Party')),
+      appBar: AppBar(title: Text('${widget.edit ? "Update": "Add"} Party')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

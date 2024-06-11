@@ -55,7 +55,7 @@ class ExpenseState extends State<Expense>{
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         width: double.infinity,
-                        height: 75,
+                        height: 85,
                         child:
                       Row(
                         children: [
@@ -72,7 +72,7 @@ class ExpenseState extends State<Expense>{
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                             Text(exp['expenseFor'].toString().trim(),style: const TextStyle(fontWeight: FontWeight.bold),),
-                            Text(exp['description'].toString().trim()),
+                            Expanded(child: Text(exp['description'].toString().trim(), style: TextStyle(overflow: TextOverflow.ellipsis),)),
                             Text(NumberFormat("₹##,##,##0.00").format(exp['amount']))
                           ],),
                         )

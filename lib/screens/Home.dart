@@ -78,7 +78,7 @@ class Home extends StatelessWidget {
     {
       'title': 'PURCHASE ORDER',
       'color': 0xFFFA50B9,
-      'goto': 'attendance',
+      'goto': 'working',
       'adminOnly': false,
     },
   ];

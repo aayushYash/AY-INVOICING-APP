@@ -296,7 +296,7 @@ class _SalesWidgetState extends State<SalesWidget> {
         'notSeen': users
       });
 
-      data['billedItem'].forEach((item) {
+      data['billedItem']!.forEach((item) {
         var docRef =
             FirebaseFirestore.instance.collection('product').doc(item['name']);
 
@@ -439,9 +439,11 @@ class _SalesWidgetState extends State<SalesWidget> {
     // TODO: implement initState
     super.initState();
     List<Map> billedItemData = [];
-    widget.data['billedItem'].forEach((item) {
+    widget.data['billedItem']?.forEach((item) {
       billedItemData.add(item);
     });
+
+    if(widget.edit || widget.view){
     _company =
         widget.data['billingCompany'] == 'ayi' ? Company.ayi : Company.jrm;
     // invoiceNumber = widget.data['invoiceNumber'] == null ? fetchInvoiceNumber(): widget.data['invoiceNumber'];
@@ -460,6 +462,8 @@ class _SalesWidgetState extends State<SalesWidget> {
     description.text = widget.data['description'];
     shippingAddress.text = widget.data['shippingAddress'];
     powo.text = widget.data['powo'].toString();
+
+    }
   }
 
   @override
@@ -471,7 +475,7 @@ class _SalesWidgetState extends State<SalesWidget> {
     if (stateUpdated == 0) {
       if (widget.edit || widget.view) {
         List<Map> billedItemData = [];
-        widget.data['billedItem'].forEach((item) {
+        widget.data['billedItem']!.forEach((item) {
           billedItemData.add(item);
         });
 
