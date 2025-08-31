@@ -1,4 +1,3 @@
-
 import 'package:ay_invoiving_app/pdfs/pakka_invoice_pdf_preview.dart';
 import 'package:ay_invoiving_app/provider/company.dart';
 import 'package:ay_invoiving_app/sales.dart';
@@ -36,12 +35,9 @@ List month = [
 ];
 
 class SalesReportState extends State<SalesReport> {
+  firebaseStream() {}
 
-  firebaseStream(){
-    
-  }
-
-  Map selectedCompany = company.first;
+  Map selectedCompany = company.last;
   bool pakkaOnly = false;
   bool kachchaOnly = false;
 
@@ -54,7 +50,7 @@ class SalesReportState extends State<SalesReport> {
 
   @override
   Widget build(BuildContext context) {
-    print(startDate.toString()+"|"+endDate.toString());
+    print(startDate.toString() + "|" + endDate.toString());
     return Scaffold(
       appBar: AppBar(title: const Text("Sales Report")),
       body: StreamBuilder(
@@ -63,24 +59,35 @@ class SalesReportState extends State<SalesReport> {
                 .collection('sales')
                 .where('billingCompany', isEqualTo: selectedCompany['value'])
                 .where('transactionType', isEqualTo: transactionType)
-                .orderBy('invoiceDate', descending: true).where('invoiceDate',  isGreaterThanOrEqualTo: startDate, isLessThanOrEqualTo: endDate)
+                .orderBy('invoiceDate', descending: true)
+                .where('invoiceDate',
+                    isGreaterThanOrEqualTo: startDate,
+                    isLessThanOrEqualTo: endDate)
                 .snapshots()
-            : (pakkaOnly || kachchaOnly) ? FirebaseFirestore.instance
-                .collection('sales')
-                .orderBy('invoiceDate', descending: true)
-                .where('billingCompany', isEqualTo: selectedCompany['value'])
-                .where('transactionType', isEqualTo: transactionType)
-                .snapshots() :
-
-                dateFilter ? FirebaseFirestore.instance
-                .collection('sales')
-                .orderBy('invoiceDate', descending: true).where('billingCompany', isEqualTo: selectedCompany['value']).where('invoiceDate',  isGreaterThanOrEqualTo: startDate, isLessThanOrEqualTo: endDate)
-                .snapshots() :
-                FirebaseFirestore.instance
-                .collection('sales')
-                .where('billingCompany', isEqualTo: selectedCompany['value'])
-                .orderBy('invoiceDate', descending: true)
-                .snapshots(),
+            : (pakkaOnly || kachchaOnly)
+                ? FirebaseFirestore.instance
+                    .collection('sales')
+                    .orderBy('invoiceDate', descending: true)
+                    .where('billingCompany',
+                        isEqualTo: selectedCompany['value'])
+                    .where('transactionType', isEqualTo: transactionType)
+                    .snapshots()
+                : dateFilter
+                    ? FirebaseFirestore.instance
+                        .collection('sales')
+                        .orderBy('invoiceDate', descending: true)
+                        .where('billingCompany',
+                            isEqualTo: selectedCompany['value'])
+                        .where('invoiceDate',
+                            isGreaterThanOrEqualTo: startDate,
+                            isLessThanOrEqualTo: endDate)
+                        .snapshots()
+                    : FirebaseFirestore.instance
+                        .collection('sales')
+                        .where('billingCompany',
+                            isEqualTo: selectedCompany['value'])
+                        .orderBy('invoiceDate', descending: true)
+                        .snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             debugPrint(snapshot.data.docs.length.toString());
@@ -94,7 +101,7 @@ class SalesReportState extends State<SalesReport> {
                         child: Column(
                           children: [
                             Container(
-                              height: 40,
+                                height: 40,
                                 padding:
                                     const EdgeInsets.only(left: 10, right: 10),
                                 decoration: BoxDecoration(
@@ -123,49 +130,56 @@ class SalesReportState extends State<SalesReport> {
                                     })),
                             dateFilter
                                 ? SizedBox(
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextButton(
-                                          onPressed: () async {
-                                              DateTimeRange? result = await showDateRangePicker(
-                                                
-                                                  context: context,
-                                                  
-                                                  firstDate: DateTime(2000),
-                                                  lastDate: DateTime(
-                                                      DateTime.now().year,
-                                                      DateTime.now().month,
-                                                      31));
-                                                                        
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextButton(
+                                              onPressed: () async {
+                                                DateTimeRange? result =
+                                                    await showDateRangePicker(
+                                                        context: context,
+                                                        firstDate:
+                                                            DateTime(2000),
+                                                        lastDate: DateTime(
+                                                            DateTime.now().year,
+                                                            DateTime.now()
+                                                                .month,
+                                                            31));
+
+                                                setState(() {
+                                                  dateFilter = true;
+                                                  startDate = result!.start;
+                                                  endDate = result.end;
+                                                });
+                                              },
+                                              child: Text(
+                                                  "${startDate.day}-${month[startDate.month - 1]}-${startDate.year} TO ${endDate.day}-${month[endDate.month - 1]}-${endDate.year}")),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
                                               setState(() {
-                                                dateFilter = true;
-                                                startDate = result!.start;
-                                                endDate = result.end;
+                                                dateFilter = false;
                                               });
                                             },
-                                            child: Text("${startDate.day}-${month[startDate.month - 1]}-${startDate.year} TO ${endDate.day}-${month[endDate.month - 1]}-${endDate.year}")),
-                                      ),
-                                          IconButton(onPressed: (){
-                                            setState(() {
-                                              dateFilter = false;
-                                            });
-                                          }, icon: const Icon(Icons.clear,size: 18,color: Colors.amber,))
-                                    ],
-                                  ),
-                                )
+                                            icon: const Icon(
+                                              Icons.clear,
+                                              size: 18,
+                                              color: Colors.amber,
+                                            ))
+                                      ],
+                                    ),
+                                  )
                                 : TextButton.icon(
-                                  icon: const Icon(Icons.date_range),
+                                    icon: const Icon(Icons.date_range),
                                     onPressed: () async {
-                                      DateTimeRange? result = await showDateRangePicker(
-                                        
-                                          context: context,
-                                          
-                                          firstDate: DateTime(2000),
-                                          lastDate: DateTime(
-                                              DateTime.now().year,
-                                              DateTime.now().month,
-                                              31));
+                                      DateTimeRange? result =
+                                          await showDateRangePicker(
+                                              context: context,
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(
+                                                  DateTime.now().year,
+                                                  DateTime.now().month,
+                                                  31));
 
                                       setState(() {
                                         dateFilter = true;
@@ -213,106 +227,119 @@ class SalesReportState extends State<SalesReport> {
                   ),
                 ),
                 if (snapshot.data.docs.isNotEmpty)
-                
                   Expanded(
                     child: ListView(
-                      children: snapshot.data.docs
-                          .map<Widget>((sale) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(
-                                    horizontal: 10),
-                              padding: const EdgeInsets.all(8),
-                              child: Card(
-                                child: InkWell(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SalesWidget(edit: false, view: true, data: sale.data())));
-                                  },
-                                  child: Column(
+                      children: snapshot.data.docs.map<Widget>((sale) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          padding: const EdgeInsets.all(2),
+                          child: Card(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SalesWidget(
+                                            edit: false,
+                                            view: true,
+                                            data: sale.data())));
+                              },
+                              child: Column(
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                        //date
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Column(
                                             children: [
-                                              //date
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: Column(
-                                                  children: [
-                                                    Text(sale['invoiceDate']
-                                                        .toDate()
-                                                        .day
-                                                        .toString()
-                                                        .padLeft(2, '0')),
-                                                    Text(month[
-                                                        sale['invoiceDate']
-                                                                .toDate()
-                                                                .month -
-                                                            1]),
-                                                    Text(sale['invoiceDate']
-                                                        .toDate()
-                                                        .year
-                                                        .toString()),
-                                                  ],
-                                                ),
-                                              ),
+                                              Text(sale['invoiceDate']
+                                                  .toDate()
+                                                  .day
+                                                  .toString()
+                                                  .padLeft(2, '0')),
+                                              Text(month[sale['invoiceDate']
+                                                      .toDate()
+                                                      .month -
+                                                  1]),
+                                              Text(sale['invoiceDate']
+                                                  .toDate()
+                                                  .year
+                                                  .toString()),
+                                            ],
+                                          ),
+                                        ),
 
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(sale['invoiceNumber'],style: const TextStyle(fontWeight: FontWeight.bold),),
-                                                    Text(sale['customerName']),
-                                                    Flex(
-                                                      direction:
-                                                          Axis.horizontal,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      children: sale[
-                                                              'billedItem']
-                                                          .map<Widget>((item) =>
-                                                              Expanded(
-                                                                  child: Text(item[
-                                                                      'name'])))
-                                                          .toList(),
-                                                    )
-                                                  ],
-                                                ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                sale['invoiceNumber'],
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: Text(
-                                                    "₹${NumberFormat("##,##,#00.00").format(double.parse(sale['invoiceAmount'].toString()))}"),
+                                              Text(sale['customerName']),
+                                              Flex(
+                                                direction: Axis.horizontal,
+                                                clipBehavior: Clip.antiAlias,
+                                                children: sale['billedItem']
+                                                    .map<Widget>((item) =>
+                                                        Expanded(
+                                                            child: Text(
+                                                                item['name'])))
+                                                    .toList(),
                                               )
-                                            ]),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            IconButton(
-                                                onPressed: () {
-
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SalesWidget(edit: true,view: false,data: sale.data() ,)));
-                                                },
-                                                icon: const Icon(Icons.edit)),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PakkaInvoicePdfPreview(data: sale.data())));
-                                                },
-                                                icon: const Icon(Icons.share)),
-                                            
-                                          ],
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Text(
+                                              "₹${NumberFormat("##,##,#00.00").format(double.parse(sale['invoiceAmount'].toString()))}"),
                                         )
-                                      ],
-                                    ),
-                                ),
+                                      ]),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SalesWidget(
+                                                          edit: true,
+                                                          view: false,
+                                                          data: sale.data(),
+                                                        )));
+                                          },
+                                          icon: const Icon(Icons.edit)),
+                                      IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PakkaInvoicePdfPreview(
+                                                            data:
+                                                                sale.data())));
+                                          },
+                                          icon: const Icon(Icons.share)),
+                                    ],
+                                  )
+                                ],
                               ),
-                            );}
-                              )
-                          .toList(),
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   )
                 else
@@ -324,6 +351,20 @@ class SalesReportState extends State<SalesReport> {
           }
           return Loading();
         },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SalesWidget(
+                        edit: false,
+                        view: false,
+                        data: const {},
+                      )));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

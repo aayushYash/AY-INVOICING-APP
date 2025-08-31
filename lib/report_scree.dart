@@ -1,11 +1,14 @@
+import 'package:ay_invoiving_app/provider/user_provider.dart';
 import 'package:ay_invoiving_app/purchaseReport.dart';
 import 'package:ay_invoiving_app/salesReport.dart';
 import 'package:ay_invoiving_app/screens/expense.dart';
 import 'package:ay_invoiving_app/screens/update_paymentin.dart';
 import 'package:ay_invoiving_app/screens/update_paymentout.dart';
+import 'package:ay_invoiving_app/screens/working_on_it.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class Report extends StatefulWidget {
   @override
@@ -17,36 +20,12 @@ class Report extends StatefulWidget {
 List reports= [
 {
   'title': 'Monthly Summary Report',
-  'widget': SalesReport(),
+  'widget': WorkingOnIt(),
 },
 {
   'title': 'Stock Report',
-  'widget': SalesReport(),
+  'widget': WorkingOnIt(),
 },
-{
-  'title': 'Monthly Summary Report',
-  'widget': SalesReport(),
-},
-{
-  'title': 'Stock Report',
-  'widget': SalesReport(),
-},
-{
-  'title': 'Monthly Summary Report',
-  'widget': SalesReport(),
-},
-{
-  'title': 'Stock Report',
-  'widget': SalesReport(),
-},
-{
-  'title': 'Monthly Summary Report',
-  'widget': SalesReport(),
-},
-{
-  'title': 'Stock Report',
-  'widget': SalesReport(),
-}
 ];
 
 
@@ -197,6 +176,9 @@ class ReportState extends State<Report> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+             Container(
+              padding: const EdgeInsets.all(12),
+              width: MediaQuery.of(context).size.width,child: Text(DateTime.now().hour < 12 ? "Good Morning🌅, ${context.watch<UserProvider>().userName}" : DateTime.now().hour < 17 ? "Good Afternoon🌞, ${context.watch<UserProvider>().userName}" : "Good Evening🌛," " ${context.watch<UserProvider>().userName}", textAlign: TextAlign.left,style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
         
           // Stats for current month
           Container(
@@ -423,23 +405,15 @@ class ReportState extends State<Report> {
               Expanded(child: Divider(thickness: 1,))
             ],),
           ),
-          const Padding(
-            padding:  EdgeInsets.all(2.0),
-            child: Row(children: [
-              Expanded(child: Icon(Icons.keyboard_double_arrow_left_sharp)),
-              Text("Scroll"),
-              Expanded(child: Icon(Icons.keyboard_double_arrow_right_sharp))
-            ],),
-          ),
           SizedBox(
             height: 200,
             child: Scrollbar(
               child: GridView(
             
-                scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.vertical,
                 clipBehavior: Clip.hardEdge,
                 primary: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 0.5,),children: reports.map<Widget>((report){
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1,childAspectRatio: 4,),children: reports.map<Widget>((report){
                 return Card(
                   elevation: 5,
                   child: InkWell(

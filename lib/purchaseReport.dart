@@ -318,6 +318,13 @@ class PurchaseReportState extends State<PurchaseReport> {
           return Loading();
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Purchase(data: {},edit: false,view: false,)));
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

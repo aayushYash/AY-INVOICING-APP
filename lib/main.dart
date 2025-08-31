@@ -82,23 +82,6 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         theme: ThemeData(
-            // cardColor: Colors.white,
-            // cardTheme: const CardTheme(color: Colors.white,surfaceTintColor: Colors.black),
-            // // appBarTheme: AppBarTheme(backgroundColor: Colors.amberAccent),
-            // iconButtonTheme: const IconButtonThemeData(style: ButtonStyle(iconColor: MaterialStatePropertyAll(Colors.black))),
-            // iconTheme: const IconThemeData(color: Colors.black),
-            //   colorScheme: ColorScheme(
-            //       brightness: Brightness.dark,
-            //       primary: Colors.amber,
-            //       onPrimary: Colors.white,
-            //       secondary: Colors.amber.shade200,
-            //       onSecondary: Colors.white,
-            //       onBackground: Colors.black54,
-            //       background: Colors.grey.shade200,
-            //       error: const Color.fromARGB(255, 247, 109, 99),
-            //       onError: Colors.red,
-            //       surface: Colors.primaries[1],
-            //       onSurface: Colors.black),
             // useMaterial3: true,
             textTheme: const TextTheme(
               labelLarge: TextStyle(color: Colors.white),

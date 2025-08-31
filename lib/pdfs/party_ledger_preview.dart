@@ -15,7 +15,7 @@ class PartyLedgerPdfPreview extends StatelessWidget{
         title: Text("Ledger Preview"),
       ),
       body: PdfPreview(
-        pdfFileName: "${data['party']}_${data['time'].day}_${data['time'].month}_${data['time'].year}",
+        pdfFileName: "${data['party']}_${data['time'].day}_${data['time'].month}_${data['time'].year}.pdf",
         build: (context) => makePdf(data),
         ),
     );

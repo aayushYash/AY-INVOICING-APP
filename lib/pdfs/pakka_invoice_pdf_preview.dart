@@ -14,8 +14,10 @@ class PakkaInvoicePdfPreview extends StatelessWidget{
         title: const Text("Invoice Preview"),
       ),
       body: PdfPreview(
-        
-        pdfFileName: data['invoiceNumber'] != null ? data['invoiceNumber'].toString().replaceAll("/", "_") : "${data['customerName']}${data['quotationNumber']}",
+        initialPageFormat: PdfPageFormat.a4,
+        onShared: (context) => print("Shared"),
+        allowSharing: true,
+        pdfFileName: data['invoiceNumber'] != null ? data['invoiceNumber'].toString().replaceAll("/", "_")+".pdf" : "${data['customerName']}${data['quotationNumber']}.pdf",
         build: (context) => makeInvoicePdf(data)),
     );
   }

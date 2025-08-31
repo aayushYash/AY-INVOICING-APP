@@ -16,7 +16,7 @@ class UpdateViewScreen extends StatelessWidget{
           margin: const EdgeInsets.only(top: 10),
           height: 100,
           width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.only(bottom: 5,left: 5,right: 5),
+          padding: const EdgeInsets.only(bottom: 1.5,left: 1.5,right: 1.5),
           child: Card(
             elevation: 5,
             child: InkWell(
@@ -29,7 +29,7 @@ class UpdateViewScreen extends StatelessWidget{
         Container(
           height: 100,
           width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(1.5),
           child: Card(
             elevation: 5,
             child: InkWell(
@@ -42,7 +42,7 @@ class UpdateViewScreen extends StatelessWidget{
         Container(
           height: 100,
           width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(1.5),
           child: Card(
             elevation: 5,
             child: InkWell(
@@ -55,7 +55,7 @@ class UpdateViewScreen extends StatelessWidget{
         Container(
           height: 100,
           width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(1.5),
           child: Card(
             elevation: 5,
             child: InkWell(

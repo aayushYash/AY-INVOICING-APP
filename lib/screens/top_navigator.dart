@@ -20,7 +20,8 @@ class TopNavigator extends StatelessWidget{
   Widget build(BuildContext context) {
   bool admin =context.watch<UserProvider>().admin;
     return WillPopScope(child: DefaultTabController(
-      length: !admin ? 2 : 4,
+      length: 4,
+      initialIndex: 1,
       child: StreamBuilder<Object>(
         stream: FirebaseFirestore.instance.collection('log').where('notSeen', arrayContains: context.watch<UserProvider>().userName).snapshots(),
         builder: (context,AsyncSnapshot snapshot) {
@@ -46,8 +47,8 @@ class TopNavigator extends StatelessWidget{
             leading: const Icon(Icons.home), ),
             body: TabBarView(children: [
               Home(),
-              if(admin) Report(),
-              if(admin) Logs(),
+              Report(),
+              Logs(),
               UpdateViewScreen()
             ]),
           );

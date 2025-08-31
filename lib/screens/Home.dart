@@ -96,9 +96,7 @@ class Home extends StatelessWidget {
         child: Column(
           children: [
 
-            Container(
-              padding: EdgeInsets.all(12),
-              width: MediaQuery.of(context).size.width,child: Text(DateTime.now().hour < 12 ? "Good Morning🌅, ${context.watch<UserProvider>().userName}" : DateTime.now().hour < 17 ? "Good Afternoon🌞, ${context.watch<UserProvider>().userName}" : "Good Evening🌛," " ${context.watch<UserProvider>().userName}", textAlign: TextAlign.left,style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
+           
             
             Expanded(
               flex: 3,

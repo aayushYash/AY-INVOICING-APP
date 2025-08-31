@@ -64,7 +64,7 @@ class _SalesWidgetState extends State<SalesWidget> {
     } else {
       setState(() {
         invoiceNumber =
-            "${_company.toString().split('.')[1].toUpperCase()}/23-24/${data[i][ii] + 1}";
+            "${_company.toString().split('.')[1].toUpperCase()}/24-25/${data[i][ii] + 1}";
       });
     }
   }
@@ -947,7 +947,7 @@ class _SalesWidgetState extends State<SalesWidget> {
                     totalTaxAmount += gst;
 
                     totalDiscount += discount;
-                    double total = (subtotal + gst - discount);
+                    double total = (subtotal + gst - discount).roundToDouble();
                     grandTotal += total;
 
                     return InkWell(
@@ -1009,7 +1009,7 @@ class _SalesWidgetState extends State<SalesWidget> {
                                 ),
                                 Row(
                                   children: [
-                                    Text("\u{20B9} $total",
+                                    Text("\u{20B9} ${total.round()}",
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w900,
                                             fontSize: 15)),
@@ -1033,7 +1033,7 @@ class _SalesWidgetState extends State<SalesWidget> {
                               children: [
                                 const Text('Item Subtotal'),
                                 Text(
-                                    "${NumberFormat("##,##,#00.00").format(item['quantity'])} ${item['unit']} x \u{20B9} ${NumberFormat("##,##,#00.00").format(r)} = \u{20B9} ${NumberFormat("##,##,#00.##").format(subtotal)}")
+                                    "${NumberFormat("##,##,#00.00").format(item['quantity'])} ${item['unit']} x \u{20B9} ${NumberFormat("##,##,#00.00").format(r)} = \u{20B9} ${NumberFormat("##,##,#00.00").format(subtotal)}")
                               ],
                             ),
                             Row(
